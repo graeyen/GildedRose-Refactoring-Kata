@@ -145,6 +145,21 @@ public class GildedRoseTest {
     }
 
     @Test
+    public void testUpdateQualityWithTicketWhen11DaysLeft() {
+        int itemSellIn = 11;
+        int itemQuality = 6;
+        Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, itemSellIn, itemQuality) };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertEquals(itemQuality+1, app.items[0].quality);
+    }
+
+
+
+    @Test
     public void testUpdateQualityWithTicketWhen10DaysLeft() {
         int itemSellIn = 10;
         int itemQuality = 6;
@@ -161,6 +176,19 @@ public class GildedRoseTest {
     public void testUpdateQualityWithTicketWhenLessThan10DaysAndMoreThan5DaysLeft() {
         int itemSellIn = 8;
         int itemQuality = 48;
+        Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, itemSellIn, itemQuality) };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertEquals(itemQuality+2, app.items[0].quality);
+    }
+
+    @Test
+    public void testUpdateQualityWithTicketWhen6DaysLeft() {
+        int itemSellIn = 6;
+        int itemQuality = 20;
         Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, itemSellIn, itemQuality) };
         GildedRose app = new GildedRose(items);
 
