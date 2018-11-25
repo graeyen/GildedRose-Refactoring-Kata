@@ -8,11 +8,11 @@ public class Quality {
 
     private int value;
 
-    private Quality(int value) {
+    private Quality(final int value) {
         this.value = value;
     }
 
-    public static Quality create(int value) {
+    public static Quality create(final int value) {
         return new Quality(value);
     }
 

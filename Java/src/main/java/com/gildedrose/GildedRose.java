@@ -2,6 +2,7 @@ package com.gildedrose;
 
 import com.gildedrose.items.AgedBrie;
 import com.gildedrose.items.ConcertTicket;
+import com.gildedrose.items.ConjuredItem;
 import com.gildedrose.items.GildedRoseItem;
 import com.gildedrose.items.StandardItem;
 
@@ -36,6 +37,9 @@ class GildedRose {
         if(isConcert(item)) {
             return ConcertTicket.create(item);
         }
+        if(isConjured(item)) {
+            return ConjuredItem.create(item);
+        }
         return StandardItem.create(item);
     }
 
@@ -53,5 +57,9 @@ class GildedRose {
 
     private boolean isAgedBrie(Item oneItem) {
         return oneItem.name.equals("Aged Brie");
+    }
+
+    private boolean isConjured(Item oneItem) {
+        return oneItem.name.startsWith("Conjured");
     }
 }

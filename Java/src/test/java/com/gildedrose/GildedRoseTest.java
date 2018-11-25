@@ -252,6 +252,31 @@ public class GildedRoseTest {
         doTestUpdateQualityWithSulfurasForSellIn(itemSellIn);
     }
 
+    @Test
+    public void testUpdateQualityWithConjuredItemWhenSellByNotPassed() {
+        int itemSellIn = 5;
+        int itemQuality = 4;
+        Item[] items = new Item[] { new Item("Conjured item", itemSellIn, itemQuality) };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertEquals(itemQuality-2, app.items[0].quality);
+    }
+
+    @Test
+    public void testUpdateQualityWithConjuredItemAndSellByWillPass() {
+        int itemQuality = 5;
+        Item[] items = new Item[] { new Item("Conjured item", 0, itemQuality) };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(-1, app.items[0].sellIn);
+        assertEquals(itemQuality-4, app.items[0].quality);
+    }
+
     private void doTestUpdateQualityWithSulfurasForSellIn(int itemSellIn) {
         Item[] items = new Item[] { new Item(ITEM_NAME_SULFURAS, itemSellIn, ITEM_QUALITY_SULFURAS) };
         GildedRose app = new GildedRose(items);

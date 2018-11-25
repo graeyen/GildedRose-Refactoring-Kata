@@ -52,10 +52,10 @@ public class GildedRoseFunctionalTest {
 
         EXPECTED_QUALITIES_FOR_30_DAYS = new ArrayList<>();
         EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{20, 0, 7, 80, 80, 20, 49, 49, 6});
-        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{19, 1, 6, 80, 80, 21, 50, 50, 5});
-        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{18, 2, 5, 80, 80, 22, 50, 50, 4});
-        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{17, 4, 4, 80, 80, 23, 50, 50, 3});
-        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{16, 6, 3, 80, 80, 24, 50, 50, 1});
+        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{19, 1, 6, 80, 80, 21, 50, 50, 4});
+        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{18, 2, 5, 80, 80, 22, 50, 50, 2});
+        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{17, 4, 4, 80, 80, 23, 50, 50, 0});
+        EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{16, 6, 3, 80, 80, 24, 50, 50, 0});
         EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{15, 8, 2, 80, 80, 25, 50, 50, 0});
         EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{14, 10, 0, 80, 80, 27, 50, 0, 0});
         EXPECTED_QUALITIES_FOR_30_DAYS.add(new int[]{13, 12, 0, 80, 80, 29, 50, 0, 0});
