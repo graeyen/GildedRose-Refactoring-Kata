@@ -14,53 +14,30 @@ class GildedRose {
     }
 
     private void processItem(Item oneItem) {
-
         if(isSulfaras(oneItem)) {
             return;
         }
-
         decreaseSellIn(oneItem);
 
-        if (!isAgedBrie(oneItem) && !isConcert(oneItem)) {
-            decreaseQuality(oneItem);
-        } else {
-            increaseQuality(oneItem);
-            if (isConcert(oneItem)) {
-                if (oneItem.sellIn < 10) {
-                    increaseQuality(oneItem);
-                }
-                if (oneItem.sellIn < 5) {
-                    increaseQuality(oneItem);
-                }
-            }
-        }
+        GildedRoseItem gildedRoseItem = createGildedRoseItem(oneItem);
+        gildedRoseItem.adjustQuality();
+    }
 
-        if (oneItem.sellIn < 0) {
-            if(isAgedBrie(oneItem)) {
-                increaseQuality(oneItem);
-            }
-            else if(isConcert(oneItem)) {
-                oneItem.quality = 0;
-            } else {
-                decreaseQuality(oneItem);
-            }
+    private GildedRoseItem createGildedRoseItem(Item oneItem) {
+        GildedRoseItem gildedRoseItem;
+
+        if(isAgedBrie(oneItem)) {
+            gildedRoseItem = new GildedRoseBrie(oneItem);
+        } else if(isConcert(oneItem)) {
+            gildedRoseItem = new GildedRoseConcertTicket(oneItem);
+        } else {
+            gildedRoseItem = new GildedRoseStandardItem(oneItem);
         }
+        return gildedRoseItem;
     }
 
     private void decreaseSellIn(Item oneItem) {
         oneItem.sellIn = oneItem.sellIn - 1;
-    }
-
-    private void decreaseQuality(Item oneItem) {
-        if (oneItem.quality > 0) {
-            oneItem.quality = oneItem.quality - 1;
-        }
-    }
-
-    private void increaseQuality(Item oneItem) {
-        if (oneItem.quality < 50) {
-            oneItem.quality = oneItem.quality + 1;
-        }
     }
 
     private boolean isSulfaras(Item oneItem) {
