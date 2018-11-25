@@ -4,23 +4,30 @@ import com.gildedrose.Item;
 
 public class AgedBrie implements GildedRoseItem {
 
+    private static final int STANDARD_INCREASE_RATE = 1;
+    private static final int ACCELERATED_INCREASE_RATE = 2;
+
     private Item item;
 
-    public AgedBrie(Item item) {
+    private AgedBrie(final Item item) {
         this.item = item;
+    }
+
+    public static AgedBrie create(final Item item) {
+        return new AgedBrie(item);
+    }
+
+    public Item getItem() {
+        return item;
     }
 
     @Override
     public void adjustQuality() {
-        increaseQuality();
+        int increaseRate = STANDARD_INCREASE_RATE;
         if(item.sellIn < 0) {
-            increaseQuality();
+            increaseRate = ACCELERATED_INCREASE_RATE;
         }
+        item.quality = Quality.create(item.quality).increase(increaseRate).value();
     }
 
-    private void increaseQuality() {
-        if (item.quality < 50) {
-            item.quality = item.quality + 1;
-        }
-    }
 }

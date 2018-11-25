@@ -31,12 +31,12 @@ class GildedRose {
     private GildedRoseItem createGildedRoseItem(Item item) {
 
         if(isAgedBrie(item)) {
-            return new AgedBrie(item);
+            return AgedBrie.create(item);
         }
         if(isConcert(item)) {
-            return new ConcertTicket(item);
+            return ConcertTicket.create(item);
         }
-        return new StandardItem(item);
+        return StandardItem.create(item);
     }
 
     private void decreaseSellIn(Item oneItem) {
