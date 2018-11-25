@@ -15,6 +15,10 @@ class GildedRose {
 
     private void processItem(Item oneItem) {
 
+        if(isSulfaras(oneItem)) {
+            return;
+        }
+
         decreaseSellIn(oneItem);
 
         if (!isAgedBrie(oneItem) && !isConcert(oneItem)) {
@@ -44,19 +48,17 @@ class GildedRose {
     }
 
     private void decreaseSellIn(Item oneItem) {
-        if (!isSulfaras(oneItem)) {
-            oneItem.sellIn = oneItem.sellIn - 1;
-        }
+        oneItem.sellIn = oneItem.sellIn - 1;
     }
 
     private void decreaseQuality(Item oneItem) {
-        if (oneItem.quality > 0  && !isSulfaras(oneItem)) {
+        if (oneItem.quality > 0) {
             oneItem.quality = oneItem.quality - 1;
         }
     }
 
     private void increaseQuality(Item oneItem) {
-        if (oneItem.quality < 50 && !isSulfaras(oneItem)) {
+        if (oneItem.quality < 50) {
             oneItem.quality = oneItem.quality + 1;
         }
     }
