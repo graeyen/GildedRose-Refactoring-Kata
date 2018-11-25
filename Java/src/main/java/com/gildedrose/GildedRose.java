@@ -7,7 +7,7 @@ import com.gildedrose.items.InventoryItem;
 import com.gildedrose.items.StandardItem;
 
 class GildedRose {
-    private ItemFactory itemFactory = new ItemFactory();
+    private InventoryItemFactory inventoryItemFactory = new InventoryItemFactory();
 
     Item[] items;
 
@@ -17,24 +17,27 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item oneItem : items) {
-            processItem(oneItem);
+            updateQuality(oneItem);
         }
     }
 
-    private void processItem(Item oneItem) {
-        if(isSulfaras(oneItem)) {
-            return;
+    private void updateQuality(Item oneItem) {
+        if(isNotLegendary(oneItem)) {
+            adjustItem(oneItem);
         }
-        InventoryItem inventoryItem = itemFactory.create(oneItem);
+    }
+
+    private void adjustItem(Item oneItem) {
+        InventoryItem inventoryItem = inventoryItemFactory.create(oneItem);
         inventoryItem.adjustSellIn();
         inventoryItem.adjustQuality();
     }
 
-    private boolean isSulfaras(Item oneItem) {
-        return oneItem.name.equals("Sulfuras, Hand of Ragnaros");
+    private boolean isNotLegendary(Item oneItem) {
+        return !oneItem.name.startsWith("Sulfuras");
     }
 
-    private class ItemFactory {
+    private class InventoryItemFactory {
         private InventoryItem create(Item item) {
 
             if(isAgedBrie(item)) {
@@ -49,12 +52,8 @@ class GildedRose {
             return StandardItem.create(item);
         }
 
-        private boolean isSulfaras(Item oneItem) {
-            return oneItem.name.equals("Sulfuras, Hand of Ragnaros");
-        }
-
         private boolean isConcert(Item oneItem) {
-            return oneItem.name.equals("Backstage passes to a TAFKAL80ETC concert");
+            return oneItem.name.startsWith("Backstage passes");
         }
 
         private boolean isAgedBrie(Item oneItem) {

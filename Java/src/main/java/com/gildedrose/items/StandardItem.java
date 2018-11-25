@@ -17,9 +17,9 @@ public class StandardItem extends AbstractInventoryItem {
     @Override
     public void adjustQuality() {
         int decreaseRate = STANDARD_DECREASE_RATE;
-        if (item.sellIn < 0) {
-            decreaseRate = decreaseRate*2;
+        if (isSellByPassed()) {
+            decreaseRate *= 2;
         }
-        item.quality = Quality.create(item.quality).decrease(decreaseRate).value();
+        decreaseQuality(decreaseRate);
     }
 }
