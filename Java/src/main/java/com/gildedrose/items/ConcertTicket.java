@@ -1,10 +1,12 @@
-package com.gildedrose;
+package com.gildedrose.items;
 
-public class GildedRoseConcertTicket implements GildedRoseItem {
+import com.gildedrose.Item;
+
+public class ConcertTicket implements GildedRoseItem {
 
     private Item item;
 
-    public GildedRoseConcertTicket(Item item) {
+    public ConcertTicket(Item item) {
         this.item = item;
     }
 

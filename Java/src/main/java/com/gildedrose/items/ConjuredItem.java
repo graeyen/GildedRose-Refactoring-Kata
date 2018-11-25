@@ -1,17 +1,21 @@
-package com.gildedrose;
+package com.gildedrose.items;
 
-public class GildedRoseStandardItem implements GildedRoseItem {
+import com.gildedrose.Item;
+
+public class ConjuredItem implements GildedRoseItem {
 
     private Item item;
 
-    public GildedRoseStandardItem(Item item) {
+    public ConjuredItem(Item item) {
         this.item = item;
     }
 
     @Override
     public void adjustQuality() {
         decreaseQuality();
+        decreaseQuality();
         if (item.sellIn < 0) {
+            decreaseQuality();
             decreaseQuality();
         }
     }

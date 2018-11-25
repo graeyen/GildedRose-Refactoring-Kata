@@ -1,5 +1,10 @@
 package com.gildedrose;
 
+import com.gildedrose.items.AgedBrie;
+import com.gildedrose.items.ConcertTicket;
+import com.gildedrose.items.GildedRoseItem;
+import com.gildedrose.items.StandardItem;
+
 class GildedRose {
     Item[] items;
 
@@ -23,17 +28,15 @@ class GildedRose {
         gildedRoseItem.adjustQuality();
     }
 
-    private GildedRoseItem createGildedRoseItem(Item oneItem) {
-        GildedRoseItem gildedRoseItem;
+    private GildedRoseItem createGildedRoseItem(Item item) {
 
-        if(isAgedBrie(oneItem)) {
-            gildedRoseItem = new GildedRoseBrie(oneItem);
-        } else if(isConcert(oneItem)) {
-            gildedRoseItem = new GildedRoseConcertTicket(oneItem);
-        } else {
-            gildedRoseItem = new GildedRoseStandardItem(oneItem);
+        if(isAgedBrie(item)) {
+            return new AgedBrie(item);
         }
-        return gildedRoseItem;
+        if(isConcert(item)) {
+            return new ConcertTicket(item);
+        }
+        return new StandardItem(item);
     }
 
     private void decreaseSellIn(Item oneItem) {

@@ -1,10 +1,12 @@
-package com.gildedrose;
+package com.gildedrose.items;
 
-public class GildedRoseBrie implements GildedRoseItem {
+import com.gildedrose.Item;
+
+public class AgedBrie implements GildedRoseItem {
 
     private Item item;
 
-    public GildedRoseBrie(Item item) {
+    public AgedBrie(Item item) {
         this.item = item;
     }
 
