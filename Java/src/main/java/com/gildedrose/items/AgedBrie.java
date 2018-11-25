@@ -2,23 +2,17 @@ package com.gildedrose.items;
 
 import com.gildedrose.Item;
 
-public class AgedBrie implements GildedRoseItem {
+public class AgedBrie extends AbstractInventoryItem {
 
     private static final int STANDARD_INCREASE_RATE = 1;
     private static final int ACCELERATED_INCREASE_RATE = 2;
 
-    private Item item;
-
     private AgedBrie(final Item item) {
-        this.item = item;
+        super(item);
     }
 
     public static AgedBrie create(final Item item) {
         return new AgedBrie(item);
-    }
-
-    public Item getItem() {
-        return item;
     }
 
     @Override

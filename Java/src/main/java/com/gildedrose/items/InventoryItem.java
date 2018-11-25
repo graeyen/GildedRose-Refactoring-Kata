@@ -1,6 +1,8 @@
 package com.gildedrose.items;
 
-public interface GildedRoseItem {
+public interface InventoryItem {
+
+    void adjustSellIn();
 
     void adjustQuality();
 

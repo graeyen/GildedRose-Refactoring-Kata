@@ -2,24 +2,18 @@ package com.gildedrose.items;
 
 import com.gildedrose.Item;
 
-public class ConcertTicket implements GildedRoseItem {
+public class ConcertTicket extends AbstractInventoryItem {
 
     private static final int STANDARD_INCREASE_RATE = 1;
     private static final int ACCELERATED_INCREASE_RATE = 2;
     private static final int SUPER_INCREASE_RATE = 3;
 
-    private Item item;
-
     private ConcertTicket(final Item item) {
-        this.item = item;
+        super(item);
     }
 
     public static ConcertTicket create(final Item item) {
         return new ConcertTicket(item);
-    }
-
-    public Item getItem() {
-        return item;
     }
 
     @Override

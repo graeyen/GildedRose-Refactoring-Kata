@@ -2,20 +2,14 @@ package com.gildedrose.items;
 
 import com.gildedrose.Item;
 
-public class ConjuredItem implements GildedRoseItem {
-
-    private Item item;
+public class ConjuredItem extends AbstractInventoryItem {
 
     private ConjuredItem(final Item item) {
-        this.item = item;
+        super(item);
     }
 
     public static ConjuredItem create(final Item item) {
         return new ConjuredItem(item);
-    }
-
-    public Item getItem() {
-        return item;
     }
 
     @Override

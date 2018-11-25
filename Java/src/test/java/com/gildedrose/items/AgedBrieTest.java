@@ -15,7 +15,7 @@ public class AgedBrieTest {
         AgedBrie agedBrie = AgedBrie.create(setupItem(sellIn));
 
         agedBrie.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY + 1, agedBrie.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY + 1, agedBrie.item.quality);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class AgedBrieTest {
         AgedBrie agedBrie = AgedBrie.create(setupItem(sellIn));
 
         agedBrie.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY + 2, agedBrie.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY + 2, agedBrie.item.quality);
     }
 
     private Item setupItem(int sellIn) {

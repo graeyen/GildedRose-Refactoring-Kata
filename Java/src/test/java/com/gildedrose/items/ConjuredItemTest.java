@@ -15,7 +15,7 @@ public class ConjuredItemTest {
         ConjuredItem conjuredItem = ConjuredItem.create(setupItem(sellIn));
 
         conjuredItem.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY - 2, conjuredItem.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY - 2, conjuredItem.item.quality);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class ConjuredItemTest {
         ConjuredItem conjuredItem = ConjuredItem.create(setupItem(sellIn));
 
         conjuredItem.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY - 4, conjuredItem.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY - 4, conjuredItem.item.quality);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ConjuredItemTest {
         ConjuredItem conjuredItem = ConjuredItem.create(setupItem(sellIn, quality));
 
         conjuredItem.adjustQuality();
-        Assert.assertEquals(0, conjuredItem.getItem().quality);
+        Assert.assertEquals(0, conjuredItem.item.quality);
     }
 
     private Item setupItem(int sellIn) {

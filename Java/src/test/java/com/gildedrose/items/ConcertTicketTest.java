@@ -16,7 +16,7 @@ public class ConcertTicketTest {
         ConcertTicket concertTicket = ConcertTicket.create(setupItem(sellIn));
 
         concertTicket.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY + 1, concertTicket.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY + 1, concertTicket.item.quality);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class ConcertTicketTest {
         ConcertTicket concertTicket = ConcertTicket.create(setupItem(sellIn));
 
         concertTicket.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY + 2, concertTicket.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY + 2, concertTicket.item.quality);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ConcertTicketTest {
         ConcertTicket concertTicket = ConcertTicket.create(setupItem(sellIn));
 
         concertTicket.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY + 3, concertTicket.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY + 3, concertTicket.item.quality);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class ConcertTicketTest {
         ConcertTicket concertTicket = ConcertTicket.create(setupItem(sellIn, quality));
 
         concertTicket.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY_MAX, concertTicket.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY_MAX, concertTicket.item.quality);
     }
 
     private Item setupItem(int sellIn) {

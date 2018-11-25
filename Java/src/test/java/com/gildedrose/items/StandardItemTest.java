@@ -15,7 +15,7 @@ public class StandardItemTest {
         StandardItem standardItem = StandardItem.create(setupItem(sellIn));
 
         standardItem.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY - 1, standardItem.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY - 1, standardItem.item.quality);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class StandardItemTest {
         StandardItem standardItem = StandardItem.create(setupItem(sellIn));
 
         standardItem.adjustQuality();
-        Assert.assertEquals(ITEM_QUALITY - 2, standardItem.getItem().quality);
+        Assert.assertEquals(ITEM_QUALITY - 2, standardItem.item.quality);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class StandardItemTest {
         StandardItem standardItem = StandardItem.create(setupItem(sellIn, quality));
 
         standardItem.adjustQuality();
-        Assert.assertEquals(0, standardItem.getItem().quality);
+        Assert.assertEquals(0, standardItem.item.quality);
     }
 
     private Item setupItem(int sellIn) {

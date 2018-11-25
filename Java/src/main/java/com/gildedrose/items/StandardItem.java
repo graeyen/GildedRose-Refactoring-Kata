@@ -2,22 +2,16 @@ package com.gildedrose.items;
 
 import com.gildedrose.Item;
 
-public class StandardItem implements GildedRoseItem {
+public class StandardItem extends AbstractInventoryItem {
 
     public static final int STANDARD_DECREASE_RATE = 1;
 
-    private Item item;
-
     private StandardItem(final Item item) {
-        this.item = item;
+        super(item);
     }
 
     public static StandardItem create(final Item item) {
         return new StandardItem(item);
-    }
-
-    public Item getItem() {
-        return item;
     }
 
     @Override
