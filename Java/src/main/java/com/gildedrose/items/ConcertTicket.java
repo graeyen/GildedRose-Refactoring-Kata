@@ -1,10 +1,10 @@
 package com.gildedrose.items;
 
+import static com.gildedrose.items.StandardItem.DEFAULT_DECREASE_RATE;
+
 import com.gildedrose.Item;
 
 public class ConcertTicket extends AbstractInventoryItem {
-
-    private static final int STANDARD_INCREASE_RATE = 1;
 
     private ConcertTicket(final Item item) {
         super(item);
@@ -16,7 +16,7 @@ public class ConcertTicket extends AbstractInventoryItem {
 
     @Override
     public void adjustQuality() {
-        if (isSellByPassed()) {
+        if (isSellByDatePassed()) {
             item.quality = 0;
         } else {
             adjustQualityWhenSellByNotPassed();
@@ -24,12 +24,12 @@ public class ConcertTicket extends AbstractInventoryItem {
     }
 
     private void adjustQualityWhenSellByNotPassed() {
-        int increaseRate = STANDARD_INCREASE_RATE;
+        int increaseRate = DEFAULT_DECREASE_RATE;
         if (item.sellIn < 10) {
-            increaseRate = STANDARD_INCREASE_RATE * 2;
+            increaseRate = DEFAULT_DECREASE_RATE * 2;
         }
         if (item.sellIn < 5) {
-            increaseRate = STANDARD_INCREASE_RATE * 3;
+            increaseRate = DEFAULT_DECREASE_RATE * 3;
         }
        increaseQuality(increaseRate);
     }

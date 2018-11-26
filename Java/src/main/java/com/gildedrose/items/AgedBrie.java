@@ -1,10 +1,10 @@
 package com.gildedrose.items;
 
+import static com.gildedrose.items.StandardItem.DEFAULT_DECREASE_RATE;
+
 import com.gildedrose.Item;
 
 public class AgedBrie extends AbstractInventoryItem {
-
-    private static final int STANDARD_INCREASE_RATE = 1;
 
     private AgedBrie(final Item item) {
         super(item);
@@ -16,11 +16,10 @@ public class AgedBrie extends AbstractInventoryItem {
 
     @Override
     public void adjustQuality() {
-        int increaseRate = STANDARD_INCREASE_RATE;
-        if(isSellByPassed()) {
+        int increaseRate = DEFAULT_DECREASE_RATE;
+        if(isSellByDatePassed()) {
             increaseRate *= 2;
         }
         increaseQuality(increaseRate);
     }
-
 }

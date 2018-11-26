@@ -29,7 +29,7 @@ class GildedRose {
 
     private void adjustItem(Item oneItem) {
         InventoryItem inventoryItem = inventoryItemFactory.create(oneItem);
-        inventoryItem.adjustSellIn();
+        inventoryItem.decreaseSellByDate();
         inventoryItem.adjustQuality();
     }
 

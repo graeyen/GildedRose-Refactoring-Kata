@@ -1,31 +1,32 @@
 package com.gildedrose;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import com.gildedrose.items.Quality;
 import org.junit.Test;
 
 public class GildedRoseTest {
 
     private static final String ITEM_NAME_AGED_BRIE = "Aged Brie";
+
     private static final String ITEM_NAME_TICKET = "Backstage passes to a TAFKAL80ETC concert";
+
     private static final String ITEM_NAME_SULFURAS = "Sulfuras, Hand of Ragnaros";
 
-    private static final int ITEM_QUALITY_MAX = 50;
-    private static final int ITEM_QUALITY_ZERO = 0;
     private static final int ITEM_QUALITY_SULFURAS = 80;
 
-    private static final int ITEM_ZERO_SELL_IN = 0;
+    private static final int ITEM_SELL_IN_PASSED = -1;
 
     @Test
-    public void foo() {
-        Item[] items = new Item[] { new Item("foo", 0, 0) };
+    public void testUpdateQuality() {
+        Item[] items = new Item[] { new Item("item", 0, 0) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
-        assertEquals("foo", app.items[0].name);
+        assertEquals("item", app.items[0].name);
     }
 
     @Test
-    public void testUpdateQualityWithStandardItemWhenSellByNotPassed() {
+    public void testUpdateQualityWithStandardItemWhenSellByDateNotPassed() {
         int itemSellIn = 5;
         int itemQuality = 4;
         Item[] items = new Item[] { new Item("standard item", itemSellIn, itemQuality) };
@@ -33,47 +34,47 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality-1, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithStandardItemAndSellByWillPass() {
+    public void testUpdateQualityWithStandardItemWhenSellByDatePassed() {
         int itemQuality = 3;
-        Item[] items = new Item[] { new Item("standard item", 0, itemQuality) };
+        Item[] items = new Item[] { new Item("standard item", ITEM_SELL_IN_PASSED, itemQuality) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(-1, app.items[0].sellIn);
+        assertSellByDateDecreased(ITEM_SELL_IN_PASSED, app.items[0]);
         assertEquals(itemQuality-2, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithStandardItemAndSellByWillPassAndQualityLower2() {
+    public void testUpdateQualityWithStandardItemWhenSellByDatePassedAndQualityAllmostZero() {
         int itemQuality = 1;
-        Item[] items = new Item[] { new Item("standard item", 0, itemQuality)};
+        Item[] items = new Item[] { new Item("standard item", ITEM_SELL_IN_PASSED, itemQuality)};
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(-1, app.items[0].sellIn);
-        assertEquals(ITEM_QUALITY_ZERO, app.items[0].quality);
+        assertSellByDateDecreased(ITEM_SELL_IN_PASSED, app.items[0]);
+        assertEquals(Quality.MIN_VALUE, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithStandardItemAndSellByWillPassAndQualityZero() {
-        Item[] items = new Item[] { new Item("standard item", 0, ITEM_QUALITY_ZERO) };
+    public void testUpdateQualityWithStandardItemWhenSellByDatePassedPAndQualityZero() {
+        Item[] items = new Item[] { new Item("standard item", ITEM_SELL_IN_PASSED, Quality.MIN_VALUE) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(-1, app.items[0].sellIn);
-        assertEquals(ITEM_QUALITY_ZERO, app.items[0].quality);
+        assertSellByDateDecreased(ITEM_SELL_IN_PASSED, app.items[0]);
+        assertEquals(Quality.MIN_VALUE, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithBrieWhenSellByNotPassed() {
+    public void testUpdateQualityWithBrieWhenSellByDateNotPassed() {
         int itemSellIn = 5;
         int itemQuality = 4;
         Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, itemSellIn, itemQuality) };
@@ -81,58 +82,47 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality+1, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithBrieWhenSellByWillPass() {
-        int itemQuality = 49;
-        Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, ITEM_ZERO_SELL_IN, itemQuality) };
-        GildedRose app = new GildedRose(items);
-
-        app.updateQuality();
-
-        assertEquals(ITEM_ZERO_SELL_IN -1, app.items[0].sellIn);
-        assertEquals(itemQuality+1, app.items[0].quality);
-    }
-
-    @Test
-    public void testUpdateQualityWithBrieWhenSellByPassed() {
+    public void testUpdateQualityWithBrieWhenSellByDatePassed() {
         int itemQuality = 48;
-        Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, ITEM_ZERO_SELL_IN -1, itemQuality) };
+        Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, ITEM_SELL_IN_PASSED-1, itemQuality) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(ITEM_ZERO_SELL_IN -2, app.items[0].sellIn);
-        assertEquals(itemQuality+2, app.items[0].quality);
+        assertEquals(ITEM_SELL_IN_PASSED -2, app.items[0].sellIn);
+        assertEquals(Quality.MAX_VALUE, app.items[0].quality);
+    }
+
+    @Test
+    public void testUpdateQualityWithBrieWhenSellByDatePassedAndQualityNearMax() {
+        int itemQuality = 49;
+        Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, ITEM_SELL_IN_PASSED, itemQuality) };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertSellByDateDecreased(ITEM_SELL_IN_PASSED, app.items[0]);
+        assertEquals(Quality.MAX_VALUE, app.items[0].quality);
     }
 
     @Test
     public void testUpdateQualityWithBrieWhenSellByPassedAndMaxQuality() {
-        Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, ITEM_ZERO_SELL_IN -1, ITEM_QUALITY_MAX) };
+        Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, ITEM_SELL_IN_PASSED, Quality.MAX_VALUE) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(ITEM_ZERO_SELL_IN -2, app.items[0].sellIn);
-        assertEquals(ITEM_QUALITY_MAX, app.items[0].quality);
+        assertSellByDateDecreased(ITEM_SELL_IN_PASSED, app.items[0]);
+        assertEquals(Quality.MAX_VALUE, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithBrieWhenMaxQuality() {
-        Item[] items = new Item[] { new Item(ITEM_NAME_AGED_BRIE, ITEM_ZERO_SELL_IN, ITEM_QUALITY_MAX) };
-        GildedRose app = new GildedRose(items);
-
-        app.updateQuality();
-
-        assertEquals(ITEM_ZERO_SELL_IN -1, app.items[0].sellIn);
-        assertEquals(ITEM_QUALITY_MAX, app.items[0].quality);
-    }
-
-    @Test
-    public void testUpdateQualityWithTicketWhenMoreThan10DaysLeft() {
+    public void testUpdateQualityWithTicketWhenMoreThan11DaysLeft() {
         int itemSellIn = 12;
         int itemQuality = 6;
         Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, itemSellIn, itemQuality) };
@@ -140,7 +130,7 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality+1, app.items[0].quality);
     }
 
@@ -153,11 +143,9 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality+1, app.items[0].quality);
     }
-
-
 
     @Test
     public void testUpdateQualityWithTicketWhen10DaysLeft() {
@@ -168,12 +156,14 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality+2, app.items[0].quality);
     }
 
+
+
     @Test
-    public void testUpdateQualityWithTicketWhenLessThan10DaysAndMoreThan5DaysLeft() {
+    public void testUpdateQualityWithTicketWhenLessThan10DaysAndMoreThan6DaysLeft() {
         int itemSellIn = 8;
         int itemQuality = 48;
         Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, itemSellIn, itemQuality) };
@@ -181,7 +171,7 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality+2, app.items[0].quality);
     }
 
@@ -194,7 +184,7 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality+2, app.items[0].quality);
     }
 
@@ -207,53 +197,48 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality+3, app.items[0].quality);
     }
 
     @Test
     public void testUpdateQualityWithTicketWhen5DaysLeftAndMaxQuality() {
         int itemSellIn = 5;
-        Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, itemSellIn, ITEM_QUALITY_MAX) };
+        Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, itemSellIn, Quality.MAX_VALUE) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
-        assertEquals(ITEM_QUALITY_MAX, app.items[0].quality);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
+        assertEquals(Quality.MAX_VALUE, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithTicketWhenSellByPassed() {
+    public void testUpdateQualityWithTicketWhenSellByDatePassed() {
         int itemQuality = 20;
-        Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, ITEM_ZERO_SELL_IN, itemQuality) };
+        Item[] items = new Item[] { new Item(ITEM_NAME_TICKET, ITEM_SELL_IN_PASSED, itemQuality) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(ITEM_ZERO_SELL_IN -1, app.items[0].sellIn);
-        assertEquals(ITEM_QUALITY_ZERO, app.items[0].quality);
+        assertSellByDateDecreased(ITEM_SELL_IN_PASSED, app.items[0]);
+        assertEquals(Quality.MIN_VALUE, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithSulfurasWhenSellByNotPassed() {
+    public void testUpdateQualityWithSulfurasWhenSellByDateNotPassed() {
         int itemSellIn = 6;
         doTestUpdateQualityWithSulfurasForSellIn(itemSellIn);
     }
 
     @Test
     public void testUpdateQualityWithSulfurasWhenSellByZero() {
-        doTestUpdateQualityWithSulfurasForSellIn(ITEM_ZERO_SELL_IN);
+        doTestUpdateQualityWithSulfurasForSellIn(ITEM_SELL_IN_PASSED);
     }
 
-    @Test
-    public void testUpdateQualityWithSulfurasWhenSellByPassed() {
-        int itemSellIn = -2;
-        doTestUpdateQualityWithSulfurasForSellIn(itemSellIn);
-    }
 
     @Test
-    public void testUpdateQualityWithConjuredItemWhenSellByNotPassed() {
+    public void testUpdateQualityWithConjuredItemWhenSellByDateNotPassed() {
         int itemSellIn = 5;
         int itemQuality = 4;
         Item[] items = new Item[] { new Item("Conjured item", itemSellIn, itemQuality) };
@@ -261,20 +246,25 @@ public class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(itemSellIn-1, app.items[0].sellIn);
+        assertSellByDateDecreased(itemSellIn, app.items[0]);
         assertEquals(itemQuality-2, app.items[0].quality);
     }
 
     @Test
-    public void testUpdateQualityWithConjuredItemAndSellByWillPass() {
+    public void testUpdateQualityWithConjuredItemWhenSellByDatePassed() {
         int itemQuality = 5;
-        Item[] items = new Item[] { new Item("Conjured item", 0, itemQuality) };
+        Item[] items = new Item[] { new Item("Conjured item", ITEM_SELL_IN_PASSED, itemQuality) };
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
 
-        assertEquals(-1, app.items[0].sellIn);
+        assertSellByDateDecreased(ITEM_SELL_IN_PASSED, app.items[0]);
         assertEquals(itemQuality-4, app.items[0].quality);
+    }
+
+    private void assertSellByDateDecreased(int originalSellIn, Item item) {
+        int expectedSellIn = originalSellIn-1;
+        assertEquals(expectedSellIn, item.sellIn);
     }
 
     private void doTestUpdateQualityWithSulfurasForSellIn(int itemSellIn) {

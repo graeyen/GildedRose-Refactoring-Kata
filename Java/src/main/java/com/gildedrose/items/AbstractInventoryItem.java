@@ -11,11 +11,11 @@ public abstract  class AbstractInventoryItem implements  InventoryItem {
     }
 
     @Override
-    public void adjustSellIn() {
+    public void decreaseSellByDate() {
         item.sellIn--;
     }
 
-    protected boolean isSellByPassed() {
+    protected boolean isSellByDatePassed() {
         return item.sellIn < 0;
     }
 

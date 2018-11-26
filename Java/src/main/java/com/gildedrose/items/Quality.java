@@ -1,5 +1,14 @@
 package com.gildedrose.items;
 
+/**
+ * The quality of an item.
+ *
+ * The value of the quality is bounded between 0 and 50 (inclusive). When trying to create a quality with a value outside
+ * of these boundaries, the value will be automatically set to 0 (if given value was below 0) or 50 (if given value was above 50).
+ *
+ * Quality instances are immutable.
+ *
+ */
 public class Quality {
 
     public static final int MIN_VALUE=0;
